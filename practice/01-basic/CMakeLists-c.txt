@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.5)
+project(01-C-bin)
+
+#获取主机名称
+execute_process(COMMAND hostname OUTPUT_VARIABLE HOSTNAME OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+# Display the hostname
+message("Hostname: ${HOSTNAME}")
+
+if(HOSTNAME STREQUAL "ggjs-pc")
+    set(BASIC_SOURCE_PATH /home/ggjs/brook/private/cmake-examples-master/01-basic)
+else(HOSTNAME STREQUAL "cx")
+    set(BASIC_SOURCE_PATH /home/cx/projects/CMake/cmake-examples-master/01-basic)
+endif()
+
+
+#创建静态库
+add_library(hello_lib 
+    STATIC 
+    ${BASIC_SOURCE_PATH}/C-static-library/src/Hello.cpp   
+)
+
+#定义头文件目录
+target_include_directories(hello_lib
+    PUBLIC
+    ${BASIC_SOURCE_PATH}/C-static-library/include
+)
+
+#添加可执行文件
+add_executable(${PROJECT_NAME} 
+    ${BASIC_SOURCE_PATH}/C-static-library/src/main.cpp
+)
+
+#链接静态库
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE
+    hello_lib
+)
