@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.5)
+project(01-D-bin)
+
+#引用工具文件
+include(./CMakeUtils.cmake)
+
+util_get_hostname(HOSTNAME)
+message(STATUS "Hostname: ${HOSTNAME}")
+
+util_get_basic_source_dir(${HOSTNAME} BASIC_SOURCE_DIR)
+message(STATUS "BASIC_SOURCE_DIR: ${BASIC_SOURCE_DIR}")
+
+#创建动态库
+add_library(libHello
+    SHARED
+    ${BASIC_SOURCE_DIR}/D-shared-library/src/Hello.cpp)
+
+#添加动态库别名
+add_library(cx::hellow ALIAS libHello)
+
+#头文件目录
+target_include_directories(libHello
+    PUBLIC
+    ${BASIC_SOURCE_DIR}/D-shared-library/include
+)
+
+
+#添加可执行文件
+add_executable(${PROJECT_NAME}
+    ${BASIC_SOURCE_DIR}/D-shared-library/src/main.cpp
+)
+
+#链接动态库
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE
+    cx::hellow
+)

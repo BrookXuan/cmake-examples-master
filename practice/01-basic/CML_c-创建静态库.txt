@@ -9,7 +9,7 @@ message("Hostname: ${HOSTNAME}")
 
 if(HOSTNAME STREQUAL "ggjs-pc")
     set(BASIC_SOURCE_PATH /home/ggjs/brook/private/cmake-examples-master/01-basic)
-else(HOSTNAME STREQUAL "cx")
+else(HOSTNAME STREQUAL "LenovoG480")
     set(BASIC_SOURCE_PATH /home/cx/projects/CMake/cmake-examples-master/01-basic)
 endif()
 
