@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(01-E-bin)
+
+#引用工具文件
+include(./CMakeUtils.cmake)
+
+util_get_hostname(HOSTNAME)
+message(STATUS "Hostname: ${HOSTNAME}")
+
+util_get_basic_source_dir(${HOSTNAME} BASIC_SOURCE_DIR)
+
+#create lib
+add_library(CmakeHello SHARED ${BASIC_SOURCE_DIR}/E-installing/src/Hello.cpp)
+
+target_include_directories(CmakeHello PUBLIC ${BASIC_SOURCE_DIR}/E-installing/include)
+
+#create executable
+add_executable(${PROJECT_NAME} ${BASIC_SOURCE_DIR}/E-installing/src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE CmakeHello)
+
+#输入 sudo make install 打包文件到指定位置 INSTALL_DIR
+#install
+set(INSTALL_DIR /home/cx/projects/CMake/cmake-examples-master/practice/01-basic/export/)
+#bin
+install(TARGETS ${PROJECT_NAME} DESTINATION ${INSTALL_DIR}/bin)
+#lib
+install(TARGETS CmakeHello LIBRARY DESTINATION ${INSTALL_DIR}/lib)
+#header files
+install(DIRECTORY ${BASIC_SOURCE_DIR}/E-installing/include DESTINATION  ${INSTALL_DIR}/include)
+#config
+install(FILES ${BASIC_SOURCE_DIR}/E-installing/cmake-examples.conf DESTINATION  ${INSTALL_DIR}/etc)
+
+
+
+
+ 

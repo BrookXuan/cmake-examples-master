@@ -57,8 +57,10 @@ install_manifest.txt
 *.out
 *.app
 
+/**/export
 /**/build
 /**/build.*
 
 .tags
 .vscode
+
