@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.5)
+
+#引用工具文件
+include(./CMakeUtils.cmake)
+
+util_get_hostname(HOSTNAME)
+message(STATUS "Hostname: ${HOSTNAME}")
+
+util_get_basic_source_dir(${HOSTNAME} BASIC_SOURCE_DIR)
+
+if(NOT  CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message("Setting build type to "RealWithDebugInfo" as none as specified.")
+    set (CMAKE_BUILD_TYPE RealWithDebugInfo CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
+    "MinSizeRel" "RelWithDebInfo")
+endif()
+
+set(CMAKE_BUILD_TYPE "Debug")
+project(01-F-bin)
+
+add_executable(${PROJECT_NAME} ${BASIC_SOURCE_DIR}/F-build-type/main.cpp)
